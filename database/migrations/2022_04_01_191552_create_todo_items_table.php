@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -15,9 +14,11 @@ return new class extends Migration
     {
         Schema::create('todo_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('list_id');
+            $table->foreignId('list_id')
+                ->constrained('todo_lists');
             $table->string('title');
-            $table->boolean('is_done');
+            $table->text('description');
+            $table->boolean('is_done')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

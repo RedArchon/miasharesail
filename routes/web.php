@@ -29,6 +29,9 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/test', [TodoListController::class, 'create']);
+Route::get('/todo-list/create', [TodoListController::class, 'create'])->name('todo-list.create');
+Route::get('/todo-list/index', [TodoListController::class, 'index'])->name('todo-list.index');
+Route::post('/todo-list/store', [TodoListController::class, 'store'])->name('todo-list.store');
+Route::get('/todo-list/{id}', [TodoListController::class, 'show'])->name('todo-list.show');
 
 require __DIR__.'/auth.php';
