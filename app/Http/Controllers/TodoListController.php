@@ -7,10 +7,8 @@ use App\Models\TodoItem;
 use App\Models\TodoList;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
-use JetBrains\PhpStorm\NoReturn;
 
 class TodoListController extends Controller
 {
@@ -21,8 +19,7 @@ class TodoListController extends Controller
      */
     public function index()
     {
-
-        return Inertia::render('TheTodoListIndexComponent', ['lists' => TodoList::byUserType()->get()]);
+        return Inertia::render('TheTodoListIndexComponent', ['lists' => TodoList::byUserType()->orderBy('created_at', 'desc')->get()]);
     }
 
     /**
@@ -43,9 +40,7 @@ class TodoListController extends Controller
      */
     public function store(TodoListStoreRequest $request): JsonResponse
     {
-        $this->storeNewListViaTransaction($request);
-
-        return response()->json(['data' => TodoList::create($request->validated()), 'status' => 201]);
+        return response()->json(['list' => $this->storeNewListViaTransaction($request)], 201);
     }
 
     /**
@@ -95,13 +90,14 @@ class TodoListController extends Controller
 
     /**
      * @param TodoListStoreRequest $request
-     * @return void
+     * @return mixed
      */
-    private function storeNewListViaTransaction(TodoListStoreRequest $request): void
+     private function storeNewListViaTransaction(TodoListStoreRequest $request): mixed
     {
-        DB::transaction(function () use ($request) {
+        return DB::transaction(function () use ($request) {
             $list = TodoList::create($request->validated());
             $this->createItemsForNewList(collect($request->validated('items')), $list);
+            return $list;
         });
     }
 

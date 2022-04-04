@@ -21,7 +21,8 @@ class TodoList extends Model
     ];
 
     protected $appends = [
-        'ago'
+        'ago',
+        'path'
     ];
 
     protected $with = ['items'];
@@ -51,5 +52,20 @@ class TodoList extends Model
         return Attribute::make(
             get: fn() => ($this->created_at)->ago(['parts' => 3])
         );
+    }
+
+    /**
+     * Get the path to this.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    public function path(): Attribute
+    {
+        return new Attribute(fn() => route('todo-list.show', $this));
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TodoItemController;
 use App\Http\Controllers\TodoListController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -31,7 +32,16 @@ Route::get('/dashboard', function () {
 
 Route::get('/todo-list/create', [TodoListController::class, 'create'])->name('todo-list.create');
 Route::get('/todo-list/index', [TodoListController::class, 'index'])->name('todo-list.index');
-Route::post('/todo-list/store', [TodoListController::class, 'store'])->name('todo-list.store');
 Route::get('/todo-list/{id}', [TodoListController::class, 'show'])->name('todo-list.show');
+Route::post('/todo-list/store', [TodoListController::class, 'store'])->name('todo-list.store');
+Route::post('/todo-list/{id}/destroy', [TodoListController::class, 'destroy'])->name('todo-list.destroy');
+
+Route::put('/todo-item/{todo_item}/update', [TodoItemController::class, 'update'])
+    ->name('todo-item.update')
+//    ->middleware('can:update,todo_item')
+;
+Route::post('/todo-item/{todo_item}/destroy', [TodoItemController::class, 'destroy'])
+    ->name('todo-item.destroy')
+    ->middleware('can:delete,todo_item');
 
 require __DIR__.'/auth.php';

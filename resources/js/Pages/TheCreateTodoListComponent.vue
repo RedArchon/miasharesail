@@ -108,16 +108,15 @@ export default {
                 description: this.list.description,
                 items: this.todoItems
             }
-            axios.post("/todo-list/store", payload)
+            await axios.post("/todo-list/store", payload)
                 .then(response => {
-                    this.storeResponseData = response.data.data
+                    window.location.href = response.data.list.path
                 })
         },
         addTodoItem() {
             this.todoItems.push({key: this.todoCount, title: '', description: ''})
         },
         updateItem(data){
-            console.log(data)
             this.todoItems[data.key] = data;
         },
     },

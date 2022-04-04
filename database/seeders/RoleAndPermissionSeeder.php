@@ -27,7 +27,7 @@ class RoleAndPermissionSeeder extends Seeder
             Role::create($role);
         }
 
-        $userPermissions = [
+        $permissions = [
             ['name' => 'todo-item view'],
             ['name' => 'todo-item update'],
             ['name' => 'todo-item create'],
@@ -39,11 +39,11 @@ class RoleAndPermissionSeeder extends Seeder
             ['name' => 'todo-list delete'],
         ];
 
-        foreach ($userPermissions as $userPermission) {
-            Permission::create($userPermission);
+        foreach ($permissions as $permission) {
+            Permission::create($permission);
         }
 
-        $role = Role::whereName('admin')->first();
-        $role->givePermissionTo(Permission::all());
+        $adminRole = Role::whereName('admin')->first();
+        $adminRole->givePermissionTo(Permission::all());
     }
 }

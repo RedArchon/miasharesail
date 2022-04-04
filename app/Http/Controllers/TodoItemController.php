@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateTodoItemRequest;
+use App\Models\TodoItem;
 use Illuminate\Http\Request;
 
 class TodoItemController extends Controller
@@ -62,23 +64,19 @@ class TodoItemController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTodoItemRequest $request, TodoItem $todoItem)
     {
-        //
+        $todoItem->update($request->validated());
+        return response()->json(['item' => $todoItem]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(TodoItem $todoItem): \Illuminate\Http\JsonResponse
     {
-        //
+        return response()->json(['data' => $todoItem->delete()], 204);
     }
 }

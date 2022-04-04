@@ -13,7 +13,7 @@ class TodoItem extends Model
 
     protected $guarded = [];
 
-    public function list()
+    public function list(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(TodoList::class);
     }
