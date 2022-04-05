@@ -20,12 +20,12 @@ class TodoItemFactory extends Factory
         return [
             'title' => $this->faker->sentence,
             'description' => $this->faker->sentence,
-            'is_done' => $this->faker->boolean([25])
+            'is_done' => $this->faker->boolean()
         ];
     }
 
-//    public function withTodoList(?TodoList $todoList = null)
-//    {
-//        return $this->state(['list_id' => $todoList ?: TodoList::factory()->create()]);
-//    }
+    public function isCompleted()
+    {
+        return $this->state(['is_done' => true]);
+    }
 }

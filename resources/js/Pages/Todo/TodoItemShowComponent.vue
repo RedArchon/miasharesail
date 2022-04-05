@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'disabled-background':this.item.deleted_at}"
+    <div :class="{'disabled-background':this.attrs.disabled}"
          class="mx-auto mt-8 place-content-center w-1/2 rounded shadow-lg px-4 py-4">
         <div class="grid grid-cols-3 grid-flow-col gap-2 font-bold">
             <div class="text-center">
@@ -51,7 +51,7 @@
 <script>
 export default {
     name: "TodoItemShowComponent",
-    props: ['item', 'is_admin'],
+    props: ['item', 'is_admin', 'user_id'],
     data() {
         return {
             status: null,
@@ -60,9 +60,16 @@ export default {
             }
         }
     },
+    computed: {
+        isListOwner() {
+            return this.item.owner_id === this.user_id
+        }
+    },
     methods: {
         async deleteItem() {
-            if (!this.is_admin) {
+            console.log(this.isListOwner)
+            if (!this.is_admin || this.isListOwner) {
+                this.attrs.disabled = true
                 await axios.post(`/todo-item/${this.item.id}/destroy`)
                     .then(() => {
                         this.$emit('itemDeleted', this.item);
@@ -70,7 +77,7 @@ export default {
             }
         },
         async toggleItemStatus() {
-            if (!this.is_admin) {
+            if (!this.is_admin || this.isListOwner) {
                 await axios.put(`/todo-item/${this.item.id}/update`, {
                     is_done: !this.status
                 })
@@ -80,7 +87,7 @@ export default {
     mounted() {
         this.attrs.disabled = this.item.deleted_at;
         this.status = this.item.is_done;
-    }
+    },
 }
 </script>
 

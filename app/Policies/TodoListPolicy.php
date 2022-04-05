@@ -28,4 +28,13 @@ class TodoListPolicy
 
         return $user->id == $todoList->user_id;
     }
+
+    public function update(?User $user, TodoList $todoList)
+    {
+        if ($user->can('todo-list update')) {
+            return true;
+        }
+
+        return $user->id == $todoList->user_id;
+    }
 }
