@@ -7,7 +7,12 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## Setup
+
+This project was built using Laravel Sail. It's recommended that you have Docker installed to continue.
+- `git clone https://github.com/RedArchon/miasharesail.git`
+- cd into the new project's directory and run `composer install`
+
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
