@@ -8,6 +8,7 @@ This project was built using Laravel Sail. It's recommended that you have Docker
 - `./vendor/bin/sail build --no-cache` or use whichever alias you may have set for `./vendor/bin/sail`
 - `./vendor/bin/sail up`
 - Configure your MySQL connection using the credentials provided in `.env` created a scehma/database named `miasharesail`
+- `php artisan sail:install` and choose `mysql`
 - Run `./vendor/bin/sail artisan migrate:fresh --seed`
 - Open your browser and head to `miasharesail.test`
 - Navigate to the Login page and login using one of the two seeded user accounts:
