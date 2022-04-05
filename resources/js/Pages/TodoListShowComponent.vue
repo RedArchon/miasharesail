@@ -22,6 +22,7 @@ import TodoItemShowComponent from "@/Pages/Todo/TodoItemShowComponent";</script>
                 :key="item.id"
                 :item="item"
                 :is_admin="is_admin"
+                :user_id="user_id"
                 @itemDeleted="removeItemFromList"
             />
         </div>
@@ -31,7 +32,7 @@ import TodoItemShowComponent from "@/Pages/Todo/TodoItemShowComponent";</script>
 <script>
 export default {
     name: "TodoListShowComponent",
-    props: ['list', 'is_admin'],
+    props: ['list', 'is_admin', 'user_id'],
     data() {
         return {
             todo: {},
@@ -44,7 +45,7 @@ export default {
                     return item.id !== itemToDelete.id
                 });
             }
-        },
+        }
     },
     mounted() {
         this.todo = {...this.list, items:[...this.list.items]}

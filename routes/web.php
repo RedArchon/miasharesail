@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\TodoItemController;
 use App\Http\Controllers\TodoListController;
+use App\Jobs\CompleteTodoList;
+use App\Models\TodoList;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,8 +41,12 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     Route::put('/todo-item/{todo_item}/update', [TodoItemController::class, 'update'])
         ->name('todo-item.update')
-        ->middleware('can:update,todo_item')
-    ;
+        ->middleware('can:update,todo_item');
+
+    Route::get('/todo-list/{todo_list}/complete', [TodoListController::class, 'complete'])
+        ->name('todo-item.complete')
+        ->middleware('can:update,todo_list');
+
     Route::post('/todo-item/{todo_item}/destroy', [TodoItemController::class, 'destroy'])
         ->name('todo-item.destroy')
         ->middleware('can:delete,todo_item');

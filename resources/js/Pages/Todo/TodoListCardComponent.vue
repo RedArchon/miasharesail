@@ -1,32 +1,34 @@
 <template>
-    <div @click="redirectToListPage"
-         class="custom-card-width rounded overflow-hidden shadow-lg custom-progress-indicator border-t-4 border-solid mx-4 hover:bg-white cursor-pointer">
-        <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2">{{ list.title }}</div>
-            <div class="w-full flex">
-                <div class="w-full flex text-gray-700">
-                    <span class="font-bold">Completed Items:</span>
-                    <p class="ml-3">
-                        <span class="progress-color font-bold">{{ itemsCompletedCount }}</span> of &nbsp;
-                    </p>
-                    <p class="font-bold">{{ itemsCount }}</p>
+    <div>
+        <div @click="redirectToListPage"
+             class="custom-card-width rounded overflow-hidden shadow-lg custom-progress-indicator border-t-4 border-solid mx-4 hover:bg-white cursor-pointer">
+            <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2">{{ list.title }}</div>
+                <div class="w-full flex">
+                    <div class="w-full flex text-gray-700">
+                        <span class="font-bold">Completed Items:</span>
+                        <p class="ml-3">
+                            <span class="progress-color font-bold">{{ itemsCompletedCount }}</span> of &nbsp;
+                        </p>
+                        <p class="font-bold">{{ itemsCount }}</p>
+                    </div>
                 </div>
+                <div class="w-full flex text-gray-700">
+                    <span class="text-gray-700">Created {{ list.ago }}</span>
+                </div>
+                <div class="w-full mt-4">
+                    <h2 class="font-bold text-gray-700 text-lg">Description</h2>
+                </div>
+                <p class="text-gray-700 text-base">
+                    {{ list.description }}
+                </p>
             </div>
-            <div class="w-full flex text-gray-700">
-                <span class="text-gray-700">Created {{ list.ago }}</span>
-            </div>
-            <div class="w-full mt-4">
-                <h2 class="font-bold text-gray-700 text-lg">Description</h2>
-            </div>
-            <p class="text-gray-700 text-base">
-                {{ list.description }}
-            </p>
         </div>
-        <div class="px-6 pt-4 pb-2">
-            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#personal</span>
-            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#budget</span>
+        <div v-if="!isComplete" class="px-6 pt-4 pb-2">
+            <span @click="markComplete" class="cursor-pointer inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-green-700 mr-2 mb-2">Mark As Complete</span>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -37,7 +39,8 @@ export default {
         return {
             title: null,
             description: null,
-            items: null
+            items: null,
+            bypass: false
         }
     },
     computed: {
@@ -51,6 +54,9 @@ export default {
             let items = this.items;
 
             return items.filter(this.filterCompletedItems).length
+        },
+        isComplete(){
+            return this.itemsCompletedCount === this.itemsCount
         },
         progressColor(){
             let progress = this.itemsCompletedCount / this.itemsCount;
@@ -71,12 +77,20 @@ export default {
     },
     methods: {
         filterCompletedItems(item) {
-            if (item.is_done == true && !item.deleted_at) {
+            if (item.is_done == true && !item.deleted_at || this.bypass) {
                 return item;
             }
         },
         redirectToListPage() {
             window.location.href = `/todo-list/${this.list.id}`
+        },
+        async markComplete() {
+            if (!this.is_admin || this.isListOwner) {
+                await axios.get(`/todo-list/${this.list.id}/complete`)
+                    .then(() => {
+                        this.bypass = true
+                    })
+            }
         },
     },
     created() {

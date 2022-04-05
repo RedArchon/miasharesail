@@ -17,13 +17,16 @@ class TodoListSeeder extends Seeder
      */
     public function run()
     {
-       $list = TodoList::factory()
+        $lists = TodoList::factory()
             ->withUser(User::whereEmail('user@miashare.test')->first())
+            ->count(3)
             ->create();
 
-        TodoItem::factory()
-            ->for($list, 'list')
-            ->count(7)
-            ->create();
+        $lists->each(function ($list){
+            TodoItem::factory()
+                ->for($list, 'list')
+                ->count(7)
+                ->create();
+        });
     }
 }

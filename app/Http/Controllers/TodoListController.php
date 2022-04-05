@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TodoListStoreRequest;
+use App\Jobs\CompleteTodoList;
 use App\Models\TodoItem;
 use App\Models\TodoList;
 use Illuminate\Http\JsonResponse;
@@ -59,13 +60,18 @@ class TodoListController extends Controller
      */
     public function show($id): \Inertia\Response
     {
-        if(auth()->user()->hasRole('admin')){
+        $user = auth()->user();
+        if($user->hasRole('admin')){
             $list = TodoList::find($id);
             $list->items = $list->items()->withTrashed()->get();
         }else{
             $list = TodoList::with('items')->whereId($id)->first();
         }
-        return Inertia::render('TodoListShowComponent', ['list' => $list, 'is_admin' => auth()->user()->hasRole('admin')]);
+        return Inertia::render('TodoListShowComponent', [
+            'list' => $list,
+            'is_admin' => $user->hasRole('admin'),
+            'user_id' => $user->id
+        ]);
     }
 
     /**
@@ -125,5 +131,10 @@ class TodoListController extends Controller
         $items->each(function ($item) use ($list) {
             TodoItem::make($item)->list()->associate($list)->save();
         });
+    }
+
+    public function complete(TodoList $todoList)
+    {
+        CompleteTodoList::dispatch($todoList);
     }
 }

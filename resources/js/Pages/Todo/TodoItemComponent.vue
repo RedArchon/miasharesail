@@ -1,6 +1,6 @@
 <template>
     <div class="flex px-3">
-        {{itemOrder}}
+        {{ itemOrder }}
         <div class="w-full px-3 mb-6 md:mb-0">
             <label
                 class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -36,21 +36,21 @@
 export default {
     name: "TodoItemComponent",
     props: ['item'],
-    data(){
+    data() {
         return {
             title: null,
             description: null
         }
     },
     computed: {
-        values(){
+        values() {
             return {
                 key: this.item.key,
-                title: this.item.title,
-                description: this.item.description
+                title: this.title,
+                description: this.description
             }
         },
-        itemOrder(){
+        itemOrder() {
             return this.item.key + 1;
         }
     }
