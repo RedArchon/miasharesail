@@ -30,18 +30,21 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/todo-list/create', [TodoListController::class, 'create'])->name('todo-list.create');
-Route::get('/todo-list/index', [TodoListController::class, 'index'])->name('todo-list.index');
-Route::get('/todo-list/{id}', [TodoListController::class, 'show'])->name('todo-list.show');
-Route::post('/todo-list/store', [TodoListController::class, 'store'])->name('todo-list.store');
-Route::post('/todo-list/{id}/destroy', [TodoListController::class, 'destroy'])->name('todo-list.destroy');
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::get('/todo-list/create', [TodoListController::class, 'create'])->name('todo-list.create');
+    Route::get('/todo-list/index', [TodoListController::class, 'index'])->name('todo-list.index');
+    Route::get('/todo-list/{id}', [TodoListController::class, 'show'])->name('todo-list.show');
+    Route::post('/todo-list/store', [TodoListController::class, 'store'])->name('todo-list.store');
+    Route::post('/todo-list/{id}/destroy', [TodoListController::class, 'destroy'])->name('todo-list.destroy');
 
-Route::put('/todo-item/{todo_item}/update', [TodoItemController::class, 'update'])
-    ->name('todo-item.update')
-//    ->middleware('can:update,todo_item')
-;
-Route::post('/todo-item/{todo_item}/destroy', [TodoItemController::class, 'destroy'])
-    ->name('todo-item.destroy')
-    ->middleware('can:delete,todo_item');
+    Route::put('/todo-item/{todo_item}/update', [TodoItemController::class, 'update'])
+        ->name('todo-item.update')
+        ->middleware('can:update,todo_item')
+    ;
+    Route::post('/todo-item/{todo_item}/destroy', [TodoItemController::class, 'destroy'])
+        ->name('todo-item.destroy')
+        ->middleware('can:delete,todo_item');
+});
+
 
 require __DIR__.'/auth.php';

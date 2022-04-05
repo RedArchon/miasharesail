@@ -65,7 +65,7 @@ class TodoItemController extends Controller
      * Update the specified resource in storage.
      *
      */
-    public function update(UpdateTodoItemRequest $request, TodoItem $todoItem)
+    public function update(UpdateTodoItemRequest $request, TodoItem $todoItem): \Illuminate\Http\JsonResponse
     {
         $todoItem->update($request->validated());
         return response()->json(['item' => $todoItem]);

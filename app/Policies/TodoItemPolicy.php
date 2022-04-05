@@ -20,19 +20,17 @@ class TodoItemPolicy
 
     public function update(User $user, TodoItem $todoItem): bool
     {
-        if ($user->can('todo-item destroy')) {
+        if ($user->can('todo-item update')) {
             return true;
         }
-
         return $this->checkListOwnership($todoItem, $user);
     }
 
     public function delete(User $user, TodoItem $todoItem): bool
     {
-        if ($user->can('todo-item destroy')) {
+        if ($user->can('todo-item delete')) {
             return true;
         }
-
         return $this->checkListOwnership($todoItem, $user);
     }
 

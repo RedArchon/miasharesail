@@ -27,15 +27,16 @@ import TodoListCardComponent from "@/Pages/Todo/TodoListCardComponent";
 
 <script>
 export default {
+    props: ['lists'],
     data() {
         return {
-            lists: null
+            values: null
         }
     },
     computed: {},
     methods: {},
-    mounted() {
-        this.lists = this.$page.props.lists;
+    created() {
+        this.values = this.lists;
     }
 }
 </script>

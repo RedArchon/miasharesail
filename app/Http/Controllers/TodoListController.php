@@ -19,7 +19,15 @@ class TodoListController extends Controller
      */
     public function index()
     {
-        return Inertia::render('TheTodoListIndexComponent', ['lists' => TodoList::byUserType()->orderBy('created_at', 'desc')->get()]);
+        $user = auth()->user();
+
+        if($user->hasRole('admin')){
+            $lists = TodoList::with('items')->withTrashed()->get();
+        }else{
+            $lists = TodoList::with('items')->whereUserId($user->id)->get();
+        }
+
+        return Inertia::render('TheTodoListIndexComponent', ['lists' => $lists]);
     }
 
     /**
@@ -51,7 +59,13 @@ class TodoListController extends Controller
      */
     public function show($id): \Inertia\Response
     {
-        return Inertia::render('TodoListShowComponent', ['list' => TodoList::whereId($id)->first()]);
+        if(auth()->user()->hasRole('admin')){
+            $list = TodoList::find($id);
+            $list->items = $list->items()->withTrashed()->get();
+        }else{
+            $list = TodoList::with('items')->whereId($id)->first();
+        }
+        return Inertia::render('TodoListShowComponent', ['list' => $list, 'is_admin' => auth()->user()->hasRole('admin')]);
     }
 
     /**
@@ -92,7 +106,7 @@ class TodoListController extends Controller
      * @param TodoListStoreRequest $request
      * @return mixed
      */
-     private function storeNewListViaTransaction(TodoListStoreRequest $request): mixed
+    private function storeNewListViaTransaction(TodoListStoreRequest $request): mixed
     {
         return DB::transaction(function () use ($request) {
             $list = TodoList::create($request->validated());

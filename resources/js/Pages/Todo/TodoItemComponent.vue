@@ -46,8 +46,8 @@ export default {
         values(){
             return {
                 key: this.item.key,
-                title: this.title,
-                description: this.description
+                title: this.item.title,
+                description: this.item.description
             }
         },
         itemOrder(){

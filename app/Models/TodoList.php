@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
 
 class TodoList extends Model
 {
@@ -25,21 +23,25 @@ class TodoList extends Model
         'path'
     ];
 
-    protected $with = ['items'];
-
-    public function scopeByUserType($query)
-    {
-        $user = Auth::user();
-        if ($user->hasRole('admin')) {
-            $query->withTrashed();
-        } else {
-            $query->where('user_id', $user->id);
-        }
-    }
-
     public function items()
     {
         return $this->hasMany(TodoItem::class, 'list_id', 'id');
+    }
+
+    public function itemsWithTrashed()
+    {
+        return $this->hasMany(TodoItem::class, 'list_id', 'id')->withTrashed();
+    }
+
+    /**
+     * Scope a query to only include popular users.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithTrashedItems($query)
+    {
+        return $query->items()->withTrashed();
     }
 
     /**

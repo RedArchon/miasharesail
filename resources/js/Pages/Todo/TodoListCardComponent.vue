@@ -37,14 +37,18 @@ export default {
         return {
             title: null,
             description: null,
+            items: null
         }
     },
     computed: {
         itemsCount() {
-            return this.list.items.length;
+            let count = this.items.filter(function(item){
+                return !item.deleted_at
+            })
+            return count.length
         },
         itemsCompletedCount() {
-            let items = this.list.items;
+            let items = this.items;
 
             return items.filter(this.filterCompletedItems).length
         },
@@ -67,18 +71,16 @@ export default {
     },
     methods: {
         filterCompletedItems(item) {
-            if (item.is_done == true) {
+            if (item.is_done == true && !item.deleted_at) {
                 return item;
             }
         },
         redirectToListPage() {
             window.location.href = `/todo-list/${this.list.id}`
         },
-        showProgress() {
-
-        }
     },
-    mounted() {
+    created() {
+        this.items = this.list.items;
     }
 }
 </script>
