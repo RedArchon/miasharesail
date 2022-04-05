@@ -1,6 +1,6 @@
 ## Setup
 
-This project was built using Laravel Sail. It's recommended that you have Docker installed before continuing.
+This project was built using [Laravel Sail](https://laravel.com/docs/9.x/sail#main-content). It's recommended that you have Docker installed before continuing.
 - `git clone https://github.com/RedArchon/miasharesail.git`
 - create a copy of `.env.example` and name the file `.env`
 - cd into the new project's directory and run `composer install`
