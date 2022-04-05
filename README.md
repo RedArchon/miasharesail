@@ -10,6 +10,7 @@ This project was built using Laravel Sail. It's recommended that you have Docker
 - Configure your MySQL connection using the credentials provided in `.env` created a scehma/database named `miasharesail`
 - `php artisan sail:install` and choose `mysql`
 - Run `./vendor/bin/sail artisan migrate:fresh --seed`
+- `./vendor/bin/sail npm install && npm run dev`
 - Open your browser and head to `miasharesail.test`
 - Navigate to the Login page and login using one of the two seeded user accounts:
 `admin@miashare.test` `Password2022!` or `user@miashare.test` `Password2022!`
