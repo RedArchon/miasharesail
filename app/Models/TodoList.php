@@ -66,6 +66,8 @@ class TodoList extends Model
         return new Attribute(fn() => route('todo-list.show', $this));
     }
 
+
+
     public function user()
     {
         return $this->belongsTo(User::class);
