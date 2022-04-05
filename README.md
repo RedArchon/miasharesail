@@ -5,8 +5,8 @@ This project was built using [Laravel Sail](https://laravel.com/docs/9.x/sail#ma
 - create a copy of `.env.example` and name the file `.env`
 - cd into the new project's directory and run `composer install`
 - `php artisan key:generate`
+- `./vendor/bin/sail up` if you encounter any errors, use the step below to clear the cache.
 - `./vendor/bin/sail build --no-cache` or use whichever alias you may have set for `./vendor/bin/sail`
-- `./vendor/bin/sail up`
 - Configure your MySQL connection using the credentials provided in `.env` and create a schema/database named `miasharesail`
 - `php artisan sail:install` and choose `mysql`
 - Run `./vendor/bin/sail artisan migrate:fresh --seed`
