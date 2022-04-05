@@ -15,3 +15,22 @@ This project was built using [Laravel Sail](https://laravel.com/docs/9.x/sail#ma
 - Open your browser and head to `miasharesail.test`
 - Navigate to the Login page and login using one of the two seeded user accounts:
 `admin@miashare.test` `Password2022!` or `user@miashare.test` `Password2022!`
+
+Task: 
+```
+User authentication and authorization
+
+Two roles: user and administrator
+
+Administrator has full permissions
+
+User can only create and delete their own to-do items
+
+Users can create a to-do list
+
+Users can mark to-do items as done
+
+Users can delete to-do items
+
+Administrators can see all users to-do items, including deleted to-do items
+```
