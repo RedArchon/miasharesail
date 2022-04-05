@@ -19,6 +19,7 @@ class TodoItemFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence,
+            'description' => $this->faker->sentence,
             'is_done' => $this->faker->boolean([25])
         ];
     }

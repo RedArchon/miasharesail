@@ -16,6 +16,8 @@ class RoleAndPermissionSeeder extends Seeder
      */
     public function run()
     {
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
         $roles = [
             ['name' => 'admin'],
             ['name' => 'user']
@@ -25,7 +27,7 @@ class RoleAndPermissionSeeder extends Seeder
             Role::create($role);
         }
 
-        $userPermissions = [
+        $permissions = [
             ['name' => 'todo-item view'],
             ['name' => 'todo-item update'],
             ['name' => 'todo-item create'],
@@ -37,8 +39,11 @@ class RoleAndPermissionSeeder extends Seeder
             ['name' => 'todo-list delete'],
         ];
 
-        foreach ($userPermissions as $userPermission) {
-            Permission::create($userPermission);
+        foreach ($permissions as $permission) {
+            Permission::create($permission);
         }
+
+        $adminRole = Role::whereName('admin')->first();
+        $adminRole->givePermissionTo(Permission::all());
     }
 }

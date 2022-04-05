@@ -27,8 +27,11 @@ const showingNavigationDropdown = ref(false);
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <BreezeNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                <BreezeNavLink :href="route('todo-list.create')" :active="route().current('todo-list.create')">
+                                    Create Todo List
+                                </BreezeNavLink>
+                                <BreezeNavLink :href="route('todo-list.index')" :active="route().current('todo-list.index')">
+                                    Todo Lists
                                 </BreezeNavLink>
                             </div>
                         </div>

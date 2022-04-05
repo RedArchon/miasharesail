@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class TodoListStoreRequest extends FormRequest
+class TodoItemUpdateRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,10 +15,7 @@ class TodoListStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'items.*.title' => 'required|string',
-            'items.*.description' => 'required|string',
+            'is_done' => 'sometimes|required|boolean',
         ];
     }
 }
