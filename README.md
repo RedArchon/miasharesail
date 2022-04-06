@@ -13,7 +13,7 @@ This project was built using [Laravel Sail](https://laravel.com/docs/9.x/sail#ma
 - `./vendor/bin/sail npm install && npm run dev`
 - `./vendor/bin/sail artisan queue:work`
 - Open your browser and head to `miasharesail.test` or `localhost`
-- Navigate to the Login page and login using one of the two seeded user accounts:
+- Navigate to the Login page by using the Login link at the top right of the Welcome Page, and login using one of the two seeded user accounts:
 `admin@miashare.test` `Password2022!` or `user@miashare.test` `Password2022!`
 
 Task: 
